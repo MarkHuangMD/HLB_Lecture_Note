@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPB 互動讀書筆記</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="needfiles" style="font:16px/1.6 sans-serif;background:#FFF3CD;color:#5c4400;border:2px solid #E0B000;padding:14px 18px;margin:12px;border-radius:8px">
+  <b>頁面沒有正常顯示：找不到 css、js 或 content 資料夾。</b><br>
+  請先把整個 zip <b>「全部解壓縮」</b>，再打開解壓縮後資料夾裡的 index.html。不要在 zip 裡直接點開 html。
+</div>
+<header class="top">
+  <h1>CPB 互動讀書筆記</h1>
+  <p>點圖上的任何元件，就會出現對應的筆記。Miller Ch50 × Kaplan Ch31 × EACTS 2024</p>
+  <div class="legend" aria-label="管路顏色">
+    <span><i style="background:var(--ven)"></i>靜脈血</span>
+    <span><i style="background:var(--art)"></i>動脈血</span>
+    <span><i style="background:var(--cp)"></i>Cardioplegia</span>
+    <span><i style="background:var(--vent)"></i>Vent／Suction</span>
+    <span><i style="background:var(--water)"></i>水路</span>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="stagebox">
+    <div class="figure">
+<svg viewBox="0 0 1000 640" role="group" aria-label="CPB 迴路示意圖：從心臟到機器">
+  <defs>
+    <marker id="aArt" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--art)"/></marker>
+    <marker id="aVen" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ven)"/></marker>
+    <marker id="aCp" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--cp)"/></marker>
+    <marker id="aVent" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--vent)"/></marker>
+  </defs>
+
+  <!-- zone labels -->
+  <text x="40" y="626" class="sub">病人端</text>
+  <text x="470" y="626" class="sub">CPB 機器</text>
+
+  <!-- ===== pipes (drawn first, under components) ===== -->
+  <!-- arterial: oxy -> ALF -> aorta -->
+  <path class="pipe p-art" d="M750,400 L750,350 L890,350 L890,302" marker-end="url(#aArt)"/>
+  <path class="pipe p-art" d="M890,228 L890,60 L205,60 L205,165 L230,165" marker-end="url(#aArt)"/>
+  <!-- pump -> oxy -->
+  <path class="pipe p-ven" d="M672,590 L750,590 L750,544" marker-end="url(#aVen)"/>
+  <!-- reservoir -> pump -->
+  <path class="pipe p-ven" d="M510,562 L510,590 L606,590" marker-end="url(#aVen)"/>
+  <!-- cardioplegia blood tap from oxygenator -->
+  <path class="pipe p-art" d="M785,400 L785,180 L708,180" marker-end="url(#aArt)"/>
+  <!-- antegrade -->
+  <path class="pipe p-cp" d="M556,182 L400,182 L400,240 L258,240" marker-end="url(#aCp)"/>
+  <!-- retrograde -->
+  <path class="pipe p-cp" d="M556,198 L430,198 L430,432 L232,432" marker-end="url(#aCp)"/>
+  <!-- root vent -->
+  <path class="pipe p-vent" d="M400,240 L520,240 L520,280 L583,280" marker-end="url(#aVent)"/>
+  <!-- LV vent -->
+  <path class="pipe p-vent" d="M392,300 L500,300 L500,320 L583,320" marker-end="url(#aVent)"/>
+  <!-- suction -->
+  <path class="pipe p-vent" d="M358,468 L445,468 L445,360 L583,360" marker-end="url(#aVent)"/>
+  <!-- vent pumps -> reservoir -->
+  <path class="pipe p-vent" d="M617,280 L632,280 L632,385 L530,385 L530,398" marker-end="url(#aVent)"/>
+  <path class="pipe p-vent" d="M617,320 L632,320"/>
+  <path class="pipe p-vent" d="M617,360 L632,360"/>
+  <!-- water lines HCU -> HE -->
+  <path class="pipe p-water" d="M840,565 L822,565 L822,420 L802,420"/>
+  <!-- gas line -->
+  <path class="pipe" style="stroke:var(--muted);stroke-width:3" d="M840,466 L804,466"/>
+
+  <!-- ===== patient side ===== -->
+  <!-- lungs -->
+  <g class="hs" data-id="lungs" tabindex="0" role="button" aria-label="肺">
+    <ellipse class="sh" cx="92" cy="232" rx="38" ry="62"/>
+    <path d="M92,190 L92,270 M92,220 L72,245 M92,235 L112,258" stroke="var(--muted)" stroke-width="1.5" fill="none"/>
+    <text x="92" y="318" text-anchor="middle" class="lbl">肺</text>
+  </g>
+
+  <!-- anesthesia box -->
+  <g class="hs" data-id="anes" tabindex="0" role="button" aria-label="麻醉端：抗凝與監測">
+    <rect class="sh" x="20" y="18" width="160" height="84" rx="8"/>
+    <text x="34" y="44" class="lbl">麻醉端</text>
+    <text x="34" y="64" class="sub">Heparin · ACT · MAP</text>
+    <text x="34" y="82" class="sub">NIRS · TEE · 輸血 · 麻藥</text>
+  </g>
+
+  <!-- vessels + heart -->
+  <g class="hs" data-id="heart" tabindex="0" role="button" aria-label="心臟：心肌保護">
+    <path class="heartbody" d="M160,262 C120,268 112,330 140,372 C168,414 220,452 248,474 C282,446 334,410 356,362 C380,310 360,262 312,256 C286,253 264,262 250,276 C236,262 196,256 160,262 Z"/>
+    <path d="M250,280 C246,340 252,400 248,470" stroke="var(--art)" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+    <text x="186" y="338" text-anchor="middle" class="lbl">RA</text>
+    <text x="305" y="372" text-anchor="middle" class="lbl">LV</text>
+    <text x="318" y="290" text-anchor="middle" class="sub">LA</text>
+  </g>
+  <!-- SVC / IVC -->
+  <path class="vessel" d="M178,262 L178,140" stroke="var(--ven-soft)" stroke-width="16"/>
+  <path class="vessel" d="M160,394 L160,478" stroke="var(--ven-soft)" stroke-width="16"/>
+  <text x="152" y="134" class="sub">SVC</text>
+  <text x="130" y="500" class="sub">IVC</text>
+
+  <!-- aorta (clickable) -->
+  <g class="hs" data-id="aorta" tabindex="0" role="button" aria-label="升主動脈與 arterial cannula">
+    <path class="vessel hl" d="M244,272 L244,150 C244,96 336,92 344,140 L344,230" stroke="var(--art-soft)" stroke-width="20"/>
+    <rect class="sh" x="222" y="158" width="26" height="14" rx="3"/>
+    <text x="300" y="108" class="lbl">Aorta</text>
+    <text x="300" y="124" class="sub">arterial cannula</text>
+  </g>
+
+  <!-- cross clamp -->
+  <g class="hs" data-id="clamp" tabindex="0" role="button" aria-label="Aortic cross-clamp">
+    <rect class="hit" x="216" y="190" width="100" height="32"/>
+    <path class="hl" d="M228,200 L262,200 M228,211 L262,211 M262,205 L300,214" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <text x="304" y="218" class="sub">X-clamp</text>
+  </g>
+
+  <!-- aortic root: antegrade + root vent -->
+  <g class="hs" data-id="ante" tabindex="0" role="button" aria-label="Aortic root：antegrade cardioplegia 與 root vent">
+    <circle class="sh" cx="252" cy="240" r="8"/>
+    <text x="268" y="256" class="sub">Root</text>
+  </g>
+
+  <!-- RSPV + LV vent -->
+  <path class="vessel" d="M352,300 L390,300" stroke="var(--art-soft)" stroke-width="10"/>
+  <g class="hs" data-id="lvvent" tabindex="0" role="button" aria-label="LV vent（經 right superior pulmonary vein）">
+    <circle class="sh" cx="392" cy="300" r="8"/>
+    <text x="360" y="324" class="sub">RSPV</text>
+    <text x="440" y="292" class="lbl">LV vent</text>
+  </g>
+
+  <!-- coronary sinus retro -->
+  <g class="hs" data-id="retro" tabindex="0" role="button" aria-label="Retrograde cardioplegia（coronary sinus）">
+    <circle class="sh" cx="226" cy="432" r="8"/>
+    <text x="244" y="456" class="sub">CS</text>
+    <text x="336" y="424" class="lbl" style="fill:var(--cp)">Retrograde</text>
+  </g>
+
+  <!-- suction wand -->
+  <g class="hs" data-id="suction" tabindex="0" role="button" aria-label="Cardiotomy suction">
+    <rect class="hit" x="330" y="456" width="60" height="26"/>
+    <path class="hl" d="M336,476 L360,466" stroke="var(--vent)" stroke-width="6" stroke-linecap="round"/>
+    <text x="300" y="500" class="sub">Sucker</text>
+  </g>
+
+  <!-- venous cannula + line -->
+  <g class="hs" data-id="venous" tabindex="0" role="button" aria-label="Venous cannula（RA）">
+    <rect class="sh" x="138" y="342" width="34" height="14" rx="4"/>
+    <text x="20" y="372" class="lbl">Venous</text>
+    <text x="20" y="388" class="sub">cannula</text>
+  </g>
+  <path class="pipe p-ven" d="M138,349 L100,349 L100,520 L466,520" marker-end="url(#aVen)"/>
+  <g class="hs" data-id="vclamp" tabindex="0" role="button" aria-label="Venous line 與 clamp：on-pump">
+    <rect class="hit" x="268" y="500" width="70" height="40"/>
+    <path class="hl" d="M290,508 L290,532 M302,508 L302,532" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/>
+    <text x="270" y="552" class="sub">venous clamp</text>
+    <text x="150" y="512" class="sub">重力引流</text>
+  </g>
+
+  <!-- VAVD controller -->
+  <path class="pipe" style="stroke:var(--muted);stroke-width:3;stroke-dasharray:2 5" d="M452,585 L462,585 L462,410 L470,410"/>
+  <g class="hs" data-id="vavd" tabindex="0" role="button" aria-label="VAVD controller：vacuum-assisted venous drainage">
+    <rect class="sh" x="342" y="566" width="110" height="40" rx="6"/>
+    <circle cx="362" cy="586" r="10" fill="none" stroke="var(--muted)" stroke-width="2"/>
+    <path d="M362,586 L356,580" stroke="var(--ink)" stroke-width="2"/>
+    <text x="380" y="583" class="lbl">VAVD</text>
+    <text x="380" y="599" class="sub">負壓調整</text>
+  </g>
+  <!-- hemoconcentrator (after main pump) -->
+  <path class="pipe p-ven" d="M690,590 L690,562 L599,562 L599,536" marker-end="url(#aVen)"/>
+  <path class="pipe p-ven" d="M599,452 L599,438 L556,438" marker-end="url(#aVen)"/>
+  <path class="pipe" style="stroke:#B8961C;stroke-width:3;stroke-dasharray:5 4" d="M609,494 L636,494"/>
+  <g class="hs" data-id="hemo" tabindex="0" role="button" aria-label="Hemoconcentrator（ultrafiltration）">
+    <rect class="sh" x="589" y="452" width="20" height="84" rx="5"/>
+    <path d="M594,460 L594,528 M599,460 L599,528 M604,460 L604,528" stroke="var(--line)" stroke-width="1.5"/>
+    <path class="sh" d="M636,480 L666,480 L662,526 L640,526 Z"/>
+    <rect x="640" y="508" width="22" height="16" fill="#E7D58A"/>
+    <text x="614" y="470" class="sub">Hemoconc.</text>
+    <text x="651" y="542" class="sub" text-anchor="middle">尿筒</text>
+  </g>
+  <!-- ===== machine ===== -->
+  <!-- reservoir -->
+  <g class="hs" data-id="reservoir" tabindex="0" role="button" aria-label="Venous reservoir 與 priming">
+    <path class="sh" d="M470,400 L550,400 L550,540 C550,556 538,562 510,562 C482,562 470,556 470,540 Z"/>
+    <rect x="474" y="470" width="72" height="70" fill="var(--ven-soft)"/>
+    <text x="510" y="430" text-anchor="middle" class="lbl">Venous</text>
+    <text x="510" y="446" text-anchor="middle" class="lbl">reservoir</text>
+  </g>
+
+  <!-- arterial pump -->
+  <g class="hs" data-id="pump" tabindex="0" role="button" aria-label="Arterial pump">
+    <circle class="sh" cx="640" cy="590" r="32"/>
+    <path d="M640,566 L640,614 M616,590 L664,590" stroke="var(--muted)" stroke-width="2"/>
+    <circle cx="640" cy="590" r="7" fill="var(--ink)"/>
+    <text x="678" y="626" class="lbl">Arterial pump</text>
+  </g>
+
+  <!-- heat exchanger + oxygenator -->
+  <g class="hs" data-id="he" tabindex="0" role="button" aria-label="Heat exchanger">
+    <rect class="sh" x="700" y="400" width="104" height="42" rx="6"/>
+    <path d="M712,421 C722,410 732,432 742,421 C752,410 762,432 772,421 C782,410 792,432 798,421" stroke="var(--water)" stroke-width="2" fill="none"/>
+    <text x="694" y="426" text-anchor="end" class="sub">Heat exch.</text>
+  </g>
+  <g class="hs" data-id="oxy" tabindex="0" role="button" aria-label="Oxygenator">
+    <rect class="sh" x="700" y="444" width="104" height="100" rx="6"/>
+    <path d="M714,460 L790,460 M714,476 L790,476 M714,492 L790,492 M714,508 L790,508 M714,524 L790,524" stroke="var(--line)" stroke-width="2"/>
+    <text x="752" y="500" text-anchor="middle" class="lbl">Oxygenator</text>
+  </g>
+
+  <!-- gas blender -->
+  <g class="hs" data-id="gas" tabindex="0" role="button" aria-label="Gas blender、sweep gas、vaporizer 與 CO2">
+    <rect class="sh" x="840" y="440" width="140" height="56" rx="6"/>
+    <text x="852" y="462" class="lbl">Gas blender</text>
+    <text x="852" y="482" class="sub">O2 / air · 氣麻</text>
+  </g>
+
+  <!-- heater-cooler -->
+  <g class="hs" data-id="hcu" tabindex="0" role="button" aria-label="Heater-cooler unit">
+    <rect class="sh" x="840" y="540" width="140" height="56" rx="6"/>
+    <text x="852" y="562" class="lbl">Heater-cooler</text>
+    <text x="852" y="582" class="sub">水溫 · M. chimaera</text>
+  </g>
+
+  <!-- ALF -->
+  <g class="hs" data-id="alf" tabindex="0" role="button" aria-label="Arterial line filter">
+    <path class="sh" d="M872,232 L908,232 L914,262 L908,298 L872,298 L866,262 Z"/>
+    <text x="924" y="268" class="lbl">ALF</text>
+  </g>
+
+  <!-- pressure + bubble detector -->
+  <g class="hs" data-id="safety" tabindex="0" role="button" aria-label="Arterial line 壓力監測與 bubble detector">
+    <circle class="sh" cx="820" cy="350" r="12"/>
+    <text x="820" y="355" text-anchor="middle" class="mono" style="font-size:12px;font-weight:600">P</text>
+    <rect class="sh" x="878" y="124" width="24" height="30" rx="4"/>
+    <text x="912" y="144" class="sub">Bubble detector</text>
+    <text x="838" y="336" class="sub">壓力</text>
+  </g>
+
+  <!-- cardioplegia system -->
+  <g class="hs" data-id="cp" tabindex="0" role="button" aria-label="Cardioplegia 系統">
+    <rect class="sh" x="556" y="150" width="148" height="64" rx="8"/>
+    <circle cx="580" cy="182" r="14" fill="none" stroke="var(--cp)" stroke-width="2"/>
+    <text x="602" y="176" class="lbl" style="fill:var(--cp)">Cardioplegia</text>
+    <text x="602" y="194" class="sub">pump · HE · K⁺</text>
+  </g>
+
+  <!-- vent / suction pumps -->
+  <g class="hs" data-id="ventpumps" tabindex="0" role="button" aria-label="Vent 與 suction 幫浦">
+    <rect class="hit" x="580" y="262" width="80" height="116"/>
+    <circle class="sh" cx="600" cy="280" r="15"/>
+    <circle class="sh" cx="600" cy="320" r="15"/>
+    <circle class="sh" cx="600" cy="360" r="15"/>
+    <text x="642" y="284" class="sub">root vent</text>
+    <text x="642" y="324" class="sub">LV vent</text>
+    <text x="642" y="364" class="sub">suction</text>
+  </g>
+</svg>
+    </div>
+    <p class="mhint">圖可以左右滑動、兩指放大；點元件，筆記會從下方滑出來。</p>
+    <div class="idx">
+      <h2>依位置</h2>
+      <div class="chips" id="chipsParts"></div>
+      <h2>依主題</h2>
+      <div class="chips" id="chipsTopics"></div>
+    </div>
+  </div>
+
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+</div>
+
+<dialog class="lb" id="lb" aria-label="照片">
+  <div class="lb-in">
+    <div class="lb-fig"><div class="lb-wrap" id="lbWrap"><img id="lbImg" alt=""></div></div>
+    <div class="lb-side">
+      <span class="mono" id="lbCount" style="font-size:12px;color:var(--muted)"></span>
+      <h3 id="lbTitle"></h3>
+      <div id="lbCap"></div>
+      <div class="lb-nav"><button type="button" id="lbPrev">上一張</button><button type="button" id="lbNext">下一張</button><button type="button" class="x" id="lbClose">關閉</button></div>
+    </div>
+  </div>
+</dialog>
+<footer>內容整理自 Miller's Anesthesia Ch50、Kaplan's Cardiac Anesthesia Ch31、2024 EACTS/EACTAIC/EBCP Guidelines on CPB（EACTS Class / Level 已對照原文）。標「補充」者為一般教科書內容，請對照原文。示意圖為學習用簡化畫法，非實際比例。</footer>
+
+<!-- 載入順序不能換：工具 → 內容 → 照片 → 畫面 -->
+<script src="js/helpers.js"></script>
+<script src="content/topics.js"></script>
+<script src="content/photos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
